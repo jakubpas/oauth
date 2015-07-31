@@ -45,7 +45,7 @@ class Connector
         $this->redirectUrl = $redirectUrl;
         $this->scope = $scope;
 
-        if(!isset($providers[$this->provider])) {
+        if(!isset(Providers::$providers[$this->provider])) {
             throw new \Exception('Unknown provider');
         }
         foreach (Providers::$providers[$this->provider] as $property => $value) {
@@ -53,10 +53,14 @@ class Connector
         }
     }
 
+    public function getResponseType() {
+        return $this->responseType;
+    }
+
     /**
      * Print authorization redirect
      */
-    public function Authorize()
+    public function authorize()
     {
         if ($this->oauthVersion == '2.0') {
             $dialogUrl = $this->dialogUrl . 'client_id=' . $this->clientId . '&response_type=' . $this->responseType . '&scope=' . $this->scope /*.'&nonce='.$this->nonce*/ . '&state=' . $this->state . '&redirect_uri=' . urlencode(
@@ -70,7 +74,7 @@ class Connector
             $oauth_redirect_value = $this->curlRequest($redirect_url, 'GET', '');
             $dialogUrl = $this->dialogUrl . $oauth_redirect_value;
         }
-        echo "<script> top.location.href='" . $dialogUrl . "'</script>";
+        return "<script> top.location.href='" . $dialogUrl . "'</script>";
     }
 
     /**
@@ -103,7 +107,7 @@ class Connector
      * @param string $url
      * @return string
      */
-    public function APICall($url)
+    public function apiCall($url)
     {
         return (string) $this->curlRequest($url, 'GET', $_SESSION['atoken']);
     }

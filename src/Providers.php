@@ -15,7 +15,7 @@ class Providers
     public static $providers = [
         'Facebook' => [
             'oauthVersion' => '2.0',
-            'dialogUrl' => 'https://www.facebook.com/dialog/oauth?client_id=',
+            'dialogUrl' => 'https://www.facebook.com/dialog/oauth?',
             'accessTokenUrl' => 'https://graph.facebook.com/oauth/access_token',
             'responseType' => 'code',
             'userProfileUrl' => 'https://graph.connect.facebook.com/me/?',
