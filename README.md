@@ -11,15 +11,15 @@ use JakubPas\Oauth;
 
 $oauth = new JakubPas\Oauth\Connector(
     'Facebook',
-    'fbAppId',
-    'fbSecret',
+    'facebook application id ', 
+    'facebook application secret', 
     'http://www.example.com/redirect/after/authorization',
     'email'
 );
-if (!isset($_POST['code'])) {
-    $oauth->Authorize();
+if (!isset($_POST[$oauth->getResponseType()])) {
+    $oauth->authorize();
 } else {
-    $userProfile = $oauth->getUserProfile($_POST['code']);
+    $userProfile = $oauth->getUserProfile($_POST[$oauth->getResponseType()]);
     $data = json_decode($userProfile);
     // Login here....
 }
