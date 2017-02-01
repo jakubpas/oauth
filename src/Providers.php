@@ -18,7 +18,7 @@ class Providers
             'dialogUrl' => 'https://www.facebook.com/dialog/oauth?',
             'accessTokenUrl' => 'https://graph.facebook.com/oauth/access_token',
             'responseType' => 'code',
-            'userProfileUrl' => 'https://graph.connect.facebook.com/me/?',
+            'userProfileUrl' => 'https://graph.facebook.com/me/?',
             'header' => '',
         ],
         'Google' => [
