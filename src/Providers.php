@@ -2,6 +2,7 @@
 /**
  * @author Jakub Pas
  */
+
 namespace JakubPas\Oauth;
 
 /**

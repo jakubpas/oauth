@@ -33,11 +33,9 @@ class Connector
      * @param string $clientSecret
      * @param string $redirectUrl
      * @param string $scope
-     * @param string $nonce
-     * @param string $state
      * @throws \Exception
      */
-    public function __construct($provider, $clientId, $clientSecret, $redirectUrl, $scope, $nonce='', $state='')
+    public function __construct($provider, $clientId, $clientSecret, $redirectUrl, $scope)
     {
         $this->provider = $provider;
         $this->clientId = $clientId;
@@ -45,7 +43,7 @@ class Connector
         $this->redirectUrl = $redirectUrl;
         $this->scope = $scope;
 
-        if(!isset(Providers::$providers[$this->provider])) {
+        if (!isset(Providers::$providers[$this->provider])) {
             throw new \Exception('Unknown provider');
         }
         foreach (Providers::$providers[$this->provider] as $property => $value) {
@@ -53,7 +51,8 @@ class Connector
         }
     }
 
-    public function getResponseType() {
+    public function getResponseType()
+    {
         return $this->responseType;
     }
 
@@ -68,8 +67,7 @@ class Connector
                 );
         } else {
             $date = new \DateTime();
-            $postParams = 'oauth_consumer_key=' . $this->clientId . '&oauth_signature_method=HMAC-SHA1' . '&oauth_timestamp=' . $date->getTimestamp(
-                ) . '&oauth_nonce=' . $this->nonce . '&oauth_callback=' . $this->redirectUrl . '&oauth_signature=' . $this->clientSecret . '&oauth_version=1.0';
+            $postParams = 'oauth_consumer_key=' . $this->clientId . '&oauth_signature_method=HMAC-SHA1' . '&oauth_timestamp=' . $date->getTimestamp() . '&oauth_nonce=' . $this->nonce . '&oauth_callback=' . $this->redirectUrl . '&oauth_signature=' . $this->clientSecret . '&oauth_version=1.0';
             $redirect_url = $this->requestUrl . $postParams;
             $oauth_redirect_value = $this->curlRequest($redirect_url, 'GET', '');
             $dialogUrl = $this->dialogUrl . $oauth_redirect_value;
@@ -100,7 +98,7 @@ class Connector
             $profile_url = $this->userProfileUrl . $token;
             return $this->curlRequest($profile_url, 'GET', $token);
         }
-        return (string) $accessToken;
+        return (string)$accessToken;
     }
 
     /**
@@ -109,7 +107,7 @@ class Connector
      */
     public function apiCall($url)
     {
-        return (string) $this->curlRequest($url, 'GET', $_SESSION['atoken']);
+        return (string)$this->curlRequest($url, 'GET', $_SESSION['atoken']);
     }
 
     /**
@@ -138,7 +136,7 @@ class Connector
         if ($this->header) {
             curl_setopt($resource, CURLOPT_HTTPHEADER, array($this->header . $postFields));
         }
-        $response = (string) curl_exec($resource);
+        $response = (string)curl_exec($resource);
         curl_close($resource);
         if (preg_match('/graph\.connect\.facebook\.com\/me/', $url)) {
             $response = file_get_contents($url);
